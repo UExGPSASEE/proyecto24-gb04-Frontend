@@ -1,0 +1,283 @@
+
+/* Eliminar margen y padding del body y html */
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #333;
+    height: 100%;
+}
+
+.titulo-principal{
+	top:20px;
+	left:20px;
+}
+
+/* Ajustar tamaño del logo en el encabezado */
+h1 img.thumbnail {
+    width: 18%; 
+    height: auto; /* Mantiene las proporciones de la imagen */
+    margin: 0 auto; /* Centra la imagen dentro del h1 si es necesario */
+
+}
+
+
+/* Contenedor del perfil */
+.profile-container {
+    width: 100%;
+}
+
+/* Cabecera del perfil */
+.profile-header {
+    background-color: #ff5e4d;
+    padding: 30px;
+    position: relative;
+    text-align: center;
+    color: #333;
+}
+
+.profile-header .edit-button {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+    transition: transform 0.3s ease;
+}
+
+.profile-header .delete-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: #ff5e4d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+    transition: transform 0.3s ease;
+}
+
+.profile-header .logout-button {
+    position: absolute;
+    top: 100px;
+    right: 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+    transition: transform 0.3s ease;
+}
+
+.profile-header .history-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+    transition: transform 0.3s ease;
+}
+
+.profile-header .follow-button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+    transition: transform 0.3s ease; 
+}
+
+.unfollow-button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+    transition: transform 0.3s ease; 
+}
+
+.video-button {
+    background-color: #ffffff;
+    color: #555;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+    transition: transform 0.3s ease; 
+}
+
+.video-container .edit-video-button {
+    background-color: #333; /* Color de fondo */
+    color: white; /* Color del texto */
+    border: none; /* Sin borde */
+    padding: 8px 16px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Indica que es un botón clicable */
+    font-size: 0.9em; /* Tamaño de la fuente */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Suavidad en cambios */
+    position: relative; /* Puede ajustarse dentro de su contenedor */
+    display: inline-block; /* Se comporta como un botón de línea */
+    margin-top: 10px; /* Espaciado superior */
+}
+
+.video-container .edit-video-button:hover {
+    background-color: #555; /* Cambia el fondo al pasar el mouse */
+    transform: translateY(-10px); /* Mueve el botón hacia arriba al pasar el mouse */
+}
+
+.profile-header .edit-button:hover {
+    background-color: #555;
+    transform: translateY(-10px);
+}
+
+.profile-header .logout-button:hover {
+    background-color: #555;
+    transform: translateY(-10px);
+}
+
+.profile-header .history-button:hover {
+    background-color: #555;
+    transform: translateY(-10px);
+}
+
+.profile-header .follow-button:hover {
+    background-color: #555;
+    transform: translateY(-10px);
+}
+
+.unfollow-button:hover {
+    background-color: #555;
+    transform: translateY(-10px);
+}
+
+.video-button:hover {
+    background-color: ##a3a3a3;
+    transform: translateY(-10px);
+}
+
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.profile-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #ddd;
+    margin-bottom: 15px;
+}
+
+.username {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.description {
+    font-size: 1em;
+    color: #333;
+}
+
+/* Contenedor de videos */
+.video-container {
+    background-color: #333;
+    padding: 30px;
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Estilo de las tarjetas de video */
+.card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 300px;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+.thumbnail {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 15px;
+}
+
+.title {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.description {
+    font-size: 0.9em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.date {
+    font-size: 0.8em;
+    color: #333;
+}
+
+/* Botón de papelera */
+.delete-video-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 24px; /* Tamaño del ícono */
+    color: #ff4d4d; /* Color del ícono */
+    position: absolute;
+    padding: 4px;
+    border-radius: 50%; /* Hace el botón circular */
+    transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.delete-video-button:hover {
+    background-color: #ffe6e6; /* Fondo al pasar el cursor */
+    transform: scale(1.1); /* Aumenta ligeramente el tamaño */
+    color: #e60000; /* Color más oscuro al hacer hover */
+}

@@ -1,0 +1,108 @@
+body {
+    background-color: #333;
+    font-family: Arial, sans-serif;
+    padding: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    color: #fff;
+}
+
+/* Contenedor principal para la previsualización del video */
+.preview-container {
+    background-color: #fff;
+    color: #333;
+    width: 90%;
+    max-width: 500px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+/* Título del video */
+.preview-container h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Miniatura del video */
+.thumbnail img {
+    width: 100%;
+    max-width: 450px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* Descripción del video */
+.description {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+/* Detalles del video */
+.video-details p {
+    font-size: 14px;
+    color: #333;
+    text-align: left;
+    margin: 5px 0;
+}
+
+/* Botón de "Ver Video" */
+.preview-container button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #ff5e4d;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover para el botón de "Ver Video" */
+.preview-container button:hover {
+    background-color: #fa8f83;
+    transform: scale(1.05);
+}
+
+/* Sección de comentarios */
+.comments-section {
+    margin-top: 30px;
+    text-align: left;
+}
+
+.comments-section h3 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* Tarjeta de comentario */
+.comment-card {
+    background-color: #f9f9f9;
+    color: #333;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comment-author {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.comment-text {
+    font-size: 14px;
+    color: #666;
+}

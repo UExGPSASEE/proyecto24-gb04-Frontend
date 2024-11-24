@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Usuario</title>
+    <link rel="stylesheet" href="/styles/style_History.css">
+</head>
+<body>
+    <!-- Contenedor principal -->
+    <div class="history-container">
+        <div class="history-header">
+            <h1>Historial de Videos</h1>
+        </div>
+
+        <!-- Contenedor de tarjetas de videos -->
+        <div class="video-container">
+            <div class="container">
+                <!-- Repite para cada video -->
+                <div class="card" th:each="video : ${history}">
+                    <img src="/images/play.png" alt="Miniatura del video" class="thumbnail">
+                    <div class="card-content">
+                        <h2 class="title" th:text="${video.title}">Título del Video</h2>
+                        <p class="description" th:text="${video.description}">Descripción del video.</p>
+                        <p class="date" th:text="${video.uploadDate}">Fecha de subida.</p>
+                        
+                        <!-- Botón para reproducir el video -->
+                        <button class="play-button" 
+                                onclick="verpreview(this)" 
+                                th:data-title="${video.title}" 
+                                th:data-date="${video.uploadDate}">
+                            Ver Video
+                        </button>
+                    </div>
+                </div>
+                <!-- Si no hay videos, muestra un mensaje -->
+                <p th:if="${history.empty}" class="no-videos">No has visto ningún video aún.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function verpreview(button) {
+            const titulo = button.getAttribute("data-title");
+            const fecha = button.getAttribute("data-date");
+            const url = `/video/preview?title=${encodeURIComponent(titulo)}&uploadDate=${encodeURIComponent(fecha)}`;
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>

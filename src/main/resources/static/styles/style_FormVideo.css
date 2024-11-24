@@ -1,0 +1,78 @@
+body {
+    background-color: #333;
+    font-family: Arial, sans-serif;
+    padding: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    color: #fff;
+}
+
+/* Contenedor principal para el formulario de carga */
+.upload-container {
+    background-color: #fff;
+    color: #333;
+    width: 90%;
+    max-width: 500px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+/* Título del formulario */
+h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Estilos de etiquetas y campos del formulario */
+.upload-form label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 15px;
+    color: #333;
+    text-align: left;
+}
+
+/* Estilos para todos los campos de entrada, select y textarea */
+.upload-form input[type="text"],
+.upload-form input[type="file"],
+.upload-form select,
+.upload-form textarea {
+    width: 100%;
+    margin-top: 5px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.upload-form textarea {
+    resize: vertical;
+}
+
+/* Estilos para el botón de envío */
+.upload-form button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #ff5e4d;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover para el botón de envío */
+.upload-form button[type="submit"]:hover {
+    background-color: #fa8f83;
+    transform: scale(1.05);
+}

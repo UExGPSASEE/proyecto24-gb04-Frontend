@@ -1,0 +1,130 @@
+body {
+    background-color: #333;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    margin: 0;
+    color: #fff;
+}
+
+/* Contenedor principal */
+.video-container {
+    background-color: #fff;
+    color: #333;
+    width: 90%;
+    max-width: 800px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    text-align: left;
+    margin: 20px 0;
+}
+
+/* Título del video */
+.video-container h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Reproductor de video */
+.video-player video {
+    width: 100%;
+    max-height: 450px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* Botón de "Me Gusta" */
+#likeButton {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #ff5e4d;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-bottom: 20px;
+}
+
+#likeButton:hover {
+    background-color: #fa8f83;
+    transform: scale(1.05);
+}
+
+#likeButton.liked {
+    background-color: #4caf50;
+    color: #fff;
+}
+
+/* Sección de comentarios */
+.comments-section {
+    margin-top: 20px;
+}
+
+.comments-section h3 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+/* Formulario de comentarios */
+#commentForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+#commentBox {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+/* Botón de "Enviar comentario" */
+.comment-button {
+    width: fit-content;
+    padding: 8px 16px;
+    background-color: #ff5e4d;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.comment-button:hover {
+    background-color: #fa8f83;
+    transform: scale(1.05);
+}
+
+/* Lista de comentarios */
+.comments-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;
+}
+
+.comments-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.comments-list strong {
+    font-weight: bold;
+    color: #333;
+}

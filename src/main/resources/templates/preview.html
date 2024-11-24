@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previsualización de Video</title>
+    <link rel="stylesheet" href="/styles/style_Preview.css">
+</head>
+<body>
+    <div class="preview-container">
+        <!-- Título del video -->
+        <h2 th:if="${video != null}" th:text="${video.title}">Título del Video</h2>
+        <h2 th:if="${video == null}">Título del Video no disponible</h2>
+
+        <!-- Descripción del video -->
+        <p class="description" th:if="${video != null}" th:text="${video.description}">
+            Este es un resumen o descripción breve del video.
+        </p>
+        <p class="description" th:if="${video == null}">Descripción no disponible.</p>
+
+        <!-- Información adicional del video -->
+        <div class="video-details">
+            <p th:if="${user != null}" th:text="'Autor: ' + ${user.username}">Autor: Nombre del autor</p>
+            <p th:if="${user == null}">Autor no disponible.</p>
+
+            <p th:if="${video != null}" th:text="'Fecha de Publicación: ' + ${#dates.format(video.uploadDate, 'dd/MM/yyyy')}">
+                Fecha de Publicación: 01/01/2024
+            </p>
+            <p th:if="${video == null}">Fecha de Publicación no disponible.</p>
+
+            <p th:if="${video != null && video.duration != null}" th:text="'Duración: ' + ${video.duration}">
+                Duración: 10:30 minutos
+            </p>
+            <p th:if="${video == null || video.duration == null}">Duración no disponible.</p>
+        </div>
+
+        <!-- Botón para ver el video -->
+        <button type="button" th:if="${video != null}" onclick="viewvideo(this)" 
+		 th:data-id="${video.id}" >Ver Video</button>
+
+        <!-- Sección de comentarios -->
+        <div class="comments-section">
+            <h3>Comentarios</h3>
+            <div th:if="${comments != null && !comments.isEmpty()}">
+                <div class="comment-card" th:each="comment : ${comments}">
+                    <p class="comment-author" th:text="${comment.username}">Usuario: </p>
+                    <p class="comment-text" th:text="${comment.text}">Comentario</p>
+                     <p th:text="${comment.uploadDate}">  Fecha: 01/01/2024 10:30 </p>
+                </div>
+            </div>
+            <p th:if="${comments == null || comments.isEmpty()}">No hay comentarios disponibles.</p>
+        </div>
+    </div>
+
+    <script>
+		
+		async function viewvideo(button) {
+				    // Obtener el ID del video del atributo data-id del botón
+				    const id = button.getAttribute("data-id");
+
+				    // Construir la URL con el parámetro ID
+				    const url = `/video/view?id=${encodeURIComponent(id)}`;
+
+				    // Redirigir directamente
+				    window.location.href = url;
+		}
+    </script>
+</body>
+</html>

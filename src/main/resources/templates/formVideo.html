@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${edicion ? 'Editar Video' : 'Subir Video'}">Subir Video</title>
+    <link rel="stylesheet" href="/styles/style_FormVideo.css">
+</head>
+<body>
+    <div class="upload-container">
+        <!-- Mostrar el título basado en el valor de 'edicion' -->
+        <h2 th:text="${edicion ? 'Editar Video' : 'Subir Video'}">Subir Video</h2>
+        
+        <!-- Formulario de carga de video -->
+        <form id="videoUploadForm" class="upload-form" th:data-edicion="${edicion}">
+
+			<label for="titulo">Título del Video:</label>
+			<input 
+			    type="text" 
+			    id="titulo" 
+			    name="titulo" 
+			    placeholder="Ingresa el título del video" 
+			    th:value="${video?.title ?: ''}" 
+			    th:attr="readonly=${edicion ? 'readonly' : null}" 
+			    required>
+
+            <label for="descripcion">Descripción:</label>
+            <textarea id="descripcion" name="descripcion" rows="4" placeholder="Describe brevemente el video..." 
+                      th:text="${video?.description ?: ''}" required></textarea>
+
+            <label for="genero">Género:</label>
+            <select id="genero" name="genero" th:value="${video?.genre ?: ''}" required>
+                <option value="" th:selected="${video?.genre == null}">Selecciona un género</option>
+                <option value="accion" th:selected="${video?.genre == 'accion'}">Acción</option>
+                <option value="comedia" th:selected="${video?.genre == 'comedia'}">Comedia</option>
+                <option value="drama" th:selected="${video?.genre == 'drama'}">Drama</option>
+                <option value="documental" th:selected="${video?.genre == 'documental'}">Documental</option>
+                <option value="terror" th:selected="${video?.genre == 'terror'}">Terror</option>
+                <option value="otros" th:selected="${video?.genre == 'otros'}">Otros</option>
+            </select>
+
+            <label for="restriccionEdad">Restricción de Edad:</label>
+            <div id="restriccionEdad">
+                <label>
+                    <input type="radio" name="restriccionEdad" value="true" 
+                           th:checked="${video?.ageRestricted == 'true'}" required>
+                    Sí
+                </label>
+                <label>
+                    <input type="radio" name="restriccionEdad" value="false" 
+                           th:checked="${video?.ageRestricted == 'false' || video?.ageRestricted == null}" required>
+                    No
+                </label>
+            </div>
+
+            <!-- Mostrar botón basado en 'edicion' -->
+            <button type="submit" th:text="${edicion ? 'Editar Video' : 'Subir Video'}">Subir Video</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("videoUploadForm").addEventListener("submit", async function(event) {
+            event.preventDefault(); // Evita el envío estándar del formulario
+
+            // Obtener valores del formulario
+            const titulo = document.getElementById("titulo").value;
+            const descripcion = document.getElementById("descripcion").value;
+            const genero = document.getElementById("genero").value;
+            const restriccionEdad = document.querySelector('input[name="restriccionEdad"]:checked').value === "true";
+
+            // Verificar si estamos en modo edición
+            const esEdicion = document.getElementById("videoUploadForm").getAttribute("data-edicion") === "true";
+
+            // Crear el objeto Video en JSON
+            const video = {
+                title: titulo,
+                description: descripcion,
+                genre: genero,
+                ageRestricted: restriccionEdad
+            };
+
+            // Configurar URL según si es edición o subida
+            const endpoint = esEdicion ? "/user/editVideo" : "/user/uploadVideo";
+
+            try {
+                // Realiza la solicitud POST con el objeto JSON
+                const response = await fetch(endpoint, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(video)
+                });
+
+                if (response.ok) {
+                    console.log(esEdicion ? "Video editado con éxito" : "Video subido con éxito");
+                    alert(esEdicion ? "Video editado con éxito." : "Video subido con éxito.");
+
+                    // Redirige al perfil del usuario tras el éxito
+                    window.location.href = "/user/profile";
+                } else {
+                    console.error("Error al procesar el video:", response.status);
+                    alert("Hubo un error al procesar el video.");
+                }
+            } catch (error) {
+                console.error("Error en la petición:", error.message);
+                alert("Error en la petición: " + error.message);
+            }
+        });
+    </script>
+</body>
+</html>
+

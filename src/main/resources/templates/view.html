@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Video</title>
+    <link rel="stylesheet" href="/styles/style_View.css">
+</head>
+<body>
+    <div class="video-container">
+        <!-- Mostrar el título del video usando Thymeleaf -->
+        <h2 class="title" th:text="${video.title}">Título del Video</h2>
+
+        <!-- Reproductor de video -->
+        <div class="video-player">
+            <video controls>
+                <source type="video/mp4">
+                Tu navegador no soporta la reproducción de video.
+            </video>
+        </div>
+
+        <!-- Información adicional del video -->
+        <h3 th:text="${user.username}">Usuario</h3>
+        <p class="uploadDate" th:text="${video.uploadDate}">Fecha subida</p>
+		<p>Visitas:</p>
+		<p class="views" th:text="${video.views}">Numero Visitas</p>
+
+		<!-- Botón de "Me gusta" o "Ya no me gusta" según el estado de liked -->
+		<div class="like-container">
+		    <button 
+		        type="button" 
+		        onclick="darLike(this)" 
+		        th:if="${!liked}" 
+		        id="likeButton" 
+		        th:data-videoId="${video.id}">
+		        👍 Me Gusta <span id="likeCount" th:text="${video.likes}">0</span>
+		    </button>
+
+		    <button 
+		        type="button" 
+		        onclick="darUnlike(this)" 
+		        th:if="${liked}" 
+		        id="likeButton" 
+		        th:data-videoId="${video.id}">
+		        👎 Ya no me gusta <span id="likeCount" th:text="${video.likes}">0</span>
+		    </button>
+		</div>
+
+        <!-- Sección de comentarios -->
+        <div class="comments-section">
+            <h3>Comentarios</h3>
+
+            <textarea id="commentBox" placeholder="Escribe un comentario..." required></textarea>
+             
+			<button type="button" onclick="enviarComentario(this)" class="comment-button" th:data-videoId="${video.id}">Enviar comentario</button>
+
+
+            <!-- Lista de comentarios existentes -->
+            <ul class="comments-list">
+                <li th:each="comment : ${comments}">
+                    <strong th:text="${comment.username}">Usuario</strong>: 
+                    <span th:text="${comment.text}">Comentario</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- JavaScript para manejar "Me gusta" y comentarios -->
+    <script>
+		function enviarComentario(button) {
+		    const commentBox = document.getElementById("commentBox");
+		    const commentText = commentBox.value.trim(); // Elimina espacios en blanco al inicio y final
+
+		    if (!commentText) {
+		        alert("Por favor, escribe un comentario antes de enviarlo.");
+		        return;
+		    }
+
+		    // Obtener el ID del video desde los atributos data del botón
+		    const id = button.getAttribute("data-videoId");
+
+		    // Construir la URL de redirección
+		    const url = `/video/view?id=${id}`;
+
+		    // Llamada al endpoint para enviar el comentario
+		    fetch(`/user/comment`, {
+		        method: 'POST',
+		        headers: { 'Content-Type': 'application/json' },
+		        body: JSON.stringify({ videoId: id, text: commentText })
+		    })
+		        .then(response => {
+		            if (response.ok) {
+		                // Redirigir con los parámetros correctos
+		                window.location.href = url;
+		            } else {
+		                throw new Error('Error al enviar comentario');
+		            }
+		        })
+		        .catch(error => console.error('Error al enviar comentario:', error));
+		}
+
+		function darLike(button) {
+		    // Obtener el ID del video desde los atributos data del botón
+		    const id = button.getAttribute("data-videoId");
+
+		    // Construir la URL de redirección
+		    const url = `/video/view?id=${id}`;
+
+		    // Llamada al endpoint para dar "Me gusta"
+			fetch(`/user/like`, {
+			    method: 'POST',
+			    headers: { 'Content-Type': 'application/json' },
+			    body: JSON.stringify({ id }) // Aquí se envía el ID en el cuerpo de la solicitud
+			})
+		        .then(response => {
+		            if (response.ok) {
+		                // Redirigir con los parámetros correctos
+		                window.location.href = url;
+		            } else {
+		                throw new Error('Error al dar me gusta');
+		            }
+		        })
+		        .catch(error => console.error('Error al dar me gusta:', error));
+		}
+		function darUnlike(button) {
+		    // Obtener el ID del video desde los atributos data del botón
+		    const id = button.getAttribute("data-videoId");
+
+		    // Construir la URL de redirección
+		    const url = `/video/view?id=${id}`;
+
+		    // Llamada al endpoint para dar "No me gusta"
+			fetch(`/user/unlike`, {
+						    method: 'POST',
+						    headers: { 'Content-Type': 'application/json' },
+						    body: JSON.stringify({ id }) // Aquí se envía el ID en el cuerpo de la solicitud
+			})
+		        .then(response => {
+		            if (response.ok) {
+		                // Redirigir con los parámetros correctos
+		                window.location.href = url;
+		            } else {
+		                throw new Error('Error al quitar me gusta');
+		            }
+		        })
+		        .catch(error => console.error('Error al quitar me gusta:', error));
+		}
+		
+    </script>
+</body>
+</html>

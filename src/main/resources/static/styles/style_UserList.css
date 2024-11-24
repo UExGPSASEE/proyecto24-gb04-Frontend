@@ -1,0 +1,133 @@
+/* Fondo oscuro para la página */
+body {
+    background-color: #333;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+.titulo-principal{
+	top:20px;
+	left:20px;
+}
+
+/* Ajustar tamaño del logo en el encabezado */
+h1 img.thumbnail {
+    width: 18%; 
+    height: auto; /* Mantiene las proporciones de la imagen */
+    margin: 0 auto; /* Centra la imagen dentro del h1 si es necesario */
+
+}
+
+
+/* Contenedor principal */
+.user-list-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Título */
+h2 {
+    color: #ff5e4d;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+/* Estilo de la cuadrícula de tarjetas */
+.user-card-grid {
+    display: flex; /* Cambia de grid a flex */
+    flex-wrap: wrap; /* Permite que las tarjetas se ajusten en varias filas si no caben en una */
+    justify-content: center; /* Centra las tarjetas horizontalmente */
+    gap: 20px; /* Añade espacio entre las tarjetas */
+    padding: 10px; /* Añade un poco de espacio alrededor de las tarjetas */
+}
+.contenedor-tarjetas{
+	display:flex;
+	flex-direction:row;
+	
+}
+
+/* Estilo para cada tarjeta */
+.user-card {
+    background-color: #fff;
+    color: #333;
+	margin:10px;
+    border-radius: 10px;
+    padding: 20px;
+    width: 250px;
+    max-width: 300px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.user-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilo del nombre de usuario */
+.username {
+    font-size: 1.4em;
+    font-weight: bold;
+    margin: 10px 0;
+    color: #333;
+}
+
+/* Descripción y país */
+.description, .country {
+    font-size: 1em;
+    color: #666;
+    margin: 5px 0;
+    line-height: 1.4;
+}
+
+/* Botón "Ver Perfil" */
+.view-profile-btn {
+    background-color: #ff5e4d;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.view-profile-btn:hover {
+    background-color: #e04c3d;
+    transform: scale(1.05);
+}
+
+/* Responsividad para pantallas pequeñas */
+@media (max-width: 768px) {
+    .user-card-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+    }
+    
+    .user-card {
+        padding: 15px;
+    }
+    
+    .username {
+        font-size: 1.2em;
+    }
+    
+    .description, .country {
+        font-size: 0.9em;
+    }
+    
+    .view-profile-btn {
+        font-size: 0.9em;
+        padding: 8px 12px;
+    }
+}

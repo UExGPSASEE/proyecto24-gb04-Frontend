@@ -1,0 +1,184 @@
+/* General */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #333;
+    color: white;
+  }
+  
+  /* Ajustar tamaño del logo en el encabezado */
+  h1 img.thumbnail {
+      width: 30%; /* Reduce el tamaño al 30% */
+      height: auto; /* Mantiene las proporciones de la imagen */
+      margin: 0 auto; /* Centra la imagen dentro del h1 si es necesario */
+
+  }
+
+  
+  
+  
+  .container {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Botón de iniciar sesión */
+  .iniciar-sesion {
+    position: absolute;
+    top: 30px;
+    right: 20px;
+    background-color: #ff5e4d;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease; 
+  }
+  
+  .iniciar-sesion:hover {
+    background-color: #e04c3d;
+    transform: translateY(-10px);
+  }
+  
+  /* Encabezado */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .titulo-principal {
+    font-size: 2em;
+    margin: 0;
+  }
+  
+  .botones-header {
+    display: flex;
+    gap: 10px;
+	right: 10px;
+  }
+  
+  .boton {
+    position: relative;
+    background-color: #ff5e4d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease; 
+  }
+  
+  .boton:hover {
+    background-color: #e04c3d;
+    transform: translateY(-10px);
+  }
+  
+  /* Barra de búsqueda */
+  .barra-busqueda {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+  }
+  
+  .input-busqueda {
+    width: 300px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .boton-buscar {
+    background-color: #ff5e4d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease; 
+  }
+  
+  .boton-buscar:hover {
+    background-color: #e04c3d;
+    transform: translateY(-10px);
+  }
+  
+/* Contenedor de tarjetas de videos */
+.video-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Estilo de las tarjetas */
+.card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 250px;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+}
+
+.thumbnail {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 15px;
+}
+
+.title {
+  font-size: 1.2em;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.description {
+  font-size: 0.9em;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.date {
+  font-size: 0.8em;
+  color: #777;
+}
+
+.views {
+  font-size: 0.8em;
+  color: #777;
+}
+
+.video-button {
+  background-color: #333; /* Color de fondo */
+  color: white; /* Color del texto */
+  border: none; /* Sin borde */
+  padding: 8px 16px; /* Espaciado interno */
+  border-radius: 5px; /* Bordes redondeados */
+  cursor: pointer; /* Indica que es un botón clicable */
+  font-size: 0.9em; /* Tamaño de la fuente */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Suavidad en cambios */
+  position: relative; /* Puede ajustarse dentro de su contenedor */
+  display: inline-block; /* Se comporta como un botón de línea */
+  margin-top: 10px; /* Espaciado superior */
+}
+
+.video-button:hover {
+  background-color: #555; /* Cambia el fondo al pasar el mouse */
+  transform: translateY(-10px); /* Mueve el botón hacia arriba al pasar el mouse */
+}
+
+  

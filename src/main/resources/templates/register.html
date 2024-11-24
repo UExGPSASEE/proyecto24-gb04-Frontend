@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario</title>
+    <link rel="stylesheet" href="/styles/style_Register.css">
+</head>
+<body>
+    <div class="register-container">
+        <h2>Registro de Usuario</h2>
+        <form id="registerForm" class="register-form">
+            <label for="username">Nombre de Usuario:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="email">Correo Electrónico:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Registrar</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("registerForm").addEventListener("submit", async function(event) {
+            event.preventDefault(); // Evita el envío estándar del formulario
+
+            // Crea un objeto JSON con los datos del formulario
+            const userData = {
+                username: document.getElementById("username").value,
+                email: document.getElementById("email").value,
+                password: document.getElementById("password").value
+            };
+
+            try {
+                // Envía los datos del formulario al controlador del frontend
+                const response = await fetch("/user/register", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(userData) // Serializa el objeto como JSON
+                });
+
+                if (response.ok) {
+                    // Mensaje de confirmación de registro exitoso
+                    console.log("Usuario registrado correctamente.");
+					window.location.href="/user/profile";
+                } else {
+                    console.error("Error al registrar el usuario:", response.status);
+                    alert("Error al registrar el usuario.");
+                }
+            } catch (error) {
+                console.error("Error en la petición:", error);
+                alert("Error en la petición al servidor.");
+            }
+        });
+    </script>
+</body>
+</html>

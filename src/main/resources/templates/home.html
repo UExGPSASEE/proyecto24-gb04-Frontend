@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página Principal de Videos</title>
+  <link rel="stylesheet" href="/styles/style_home.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Botón de Iniciar Sesión -->
+
+    <!-- Encabezado -->
+    <header>
+      <h1 class="titulo-principal"><img src="/images/logo.png" alt="Logo de la aplicacion" class="thumbnail"></h1>
+      <div class="botones-header">
+        <!-- Condicional para los botones -->
+        <button 
+          class="boton" 
+          th:if="${logeado}" th:onclick="window.location.href='/user/following/userList'">Explorar Canales Seguidos</button>
+        <button 
+          class="boton" 
+          th:unless="${logeado}" 
+          th:onclick="window.location.href='/login'">Explorar Canales Seguidos</button>
+
+        <button 
+          class="boton" 
+          th:if="${logeado}" th:onclick="window.location.href='/user/notfollowing/userList'">Explorar Recomendaciones</button>
+        <button 
+          class="boton" 
+          th:unless="${logeado}" th:onclick="window.location.href='/login'">Explorar Recomendaciones</button>
+		  
+		  <button 
+		       class="boton" 
+		       th:if="${logeado}" 
+		       th:onclick="window.location.href='/user/profile'">Perfil</button>
+		     <button 
+		       class="boton" 
+		       th:unless="${logeado}" 
+		       th:onclick="window.location.href='/login'">Iniciar Sesión</button>
+
+      </div>
+    </header>
+
+    <!-- Barra de búsqueda -->
+    <div class="barra-busqueda">
+      <form action="/user/search" method="GET">
+		<input type="text" name="query" placeholder="Buscar..." class="input-busqueda" required>
+		<button type="submit" class="boton-buscar">Buscar</button>
+	  </form>
+    </div>
+
+    <!-- Sección de Top Videos -->
+    <div class="video-section">
+      <h2 class="section-title">Top Videos (Visualizaciones)</h2> 
+      <div class="video-container">
+        <div class="card" th:each="video : ${topvideos}">
+          <img src="/images/play.png" alt="Miniatura del video" class="thumbnail">
+          <div class="card-content">
+            <h2 class="title" th:text="${video.title}">Título del Video</h2>
+            <p class="description" th:text="${video.description}">Descripción breve del video.</p>
+            <p class="date" th:text="${video.uploadDate}">Fecha de subida.</p>
+            <p class="views" th:text="${video.views}">Visitas.</p>
+            <button class="video-button" 
+              onclick="verpreview(this)" 
+              th:data-id="${video.id}">
+              Ver Video
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección por Género -->
+    <div class="video-section">
+      <h2 class="section-title">Género: <span th:text="${genero}"></span></h2>
+      <div class="video-container">
+        <div class="card" th:each="video : ${videosgenero}">
+          <img src="/images/play.png" alt="Miniatura del video" class="thumbnail">
+          <div class="card-content">
+            <h2 class="title" th:text="${video.title}">Título del Video</h2>
+            <p class="description" th:text="${video.description}">Descripción breve del video.</p>
+            <p class="date" th:text="${video.uploadDate}">Fecha de subida.</p>
+            <p class="views" th:text="${video.views}">Visitas.</p>
+            <button class="video-button" 
+              onclick="verpreview(this)" 
+              th:data-id="${video.id}">
+              Ver Video
+            </button>
+          </div>
+        </div>
+      </div> 
+    </div>
+
+    <!-- Sección de Canales Seguidos -->
+    <div class="video-section" id="canales-sigues">
+      <h2 class="section-title">Perfiles que Sigues</h2>
+      <div th:if="${logeado}">
+        <div class="video-container">
+          <div class="card" th:each="video : ${videosSeguidos}">
+            <img src="/images/play.png" alt="Miniatura del video" class="thumbnail">
+            <div class="card-content">
+				<h2 class="title" th:text="${video.title}">Título del Video</h2>
+		            <p class="description" th:text="${video.description}">Descripción breve del video.</p>
+		            <p class="date" th:text="${video.uploadDate}">Fecha de subida.</p>
+		            <p class="views" th:text="${video.views}">Visitas.</p>
+		            <button class="video-button" 
+		              onclick="verpreview(this)" 
+		              th:data-id="${video.id}">
+		              Ver Video
+		            </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div th:unless="${logeado}">
+        <p>Inicia sesión para disfrutar de más videos.</p>
+      </div>
+    </div>
+
+    <!-- Sección de Canales que No Sigues (Recomendaciones) -->
+    <div class="video-section">
+      <h2 class="section-title">Recomendaciones - Podría interesarte</h2>
+      <div th:if="${logeado}">
+        <div class="video-container">
+          <div class="card" th:each="video : ${videosnoseguidos}">
+            <img src="/images/play.png" alt="Miniatura del Video" class="thumbnail">
+            <div class="card-content">
+				<h2 class="title" th:text="${video.title}">Título del Video</h2>
+	            <p class="description" th:text="${video.description}">Descripción breve del video.</p>
+	            <p class="date" th:text="${video.uploadDate}">Fecha de subida.</p>
+	            <p class="views" th:text="${video.views}">Visitas.</p>
+	            <button class="video-button" 
+	              onclick="verpreview(this)" 
+	              th:data-id="${video.id}">
+	              Ver Video
+	            </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div th:unless="${logeado}">
+        <p>Inicia sesión para disfrutar de más videos.</p>
+      </div>
+    </div>
+
+  </div>
+  <script>
+    document.querySelector('.boton-buscar').addEventListener('click', function () {
+        // Obtiene el valor del input
+        const query = document.querySelector('.input-busqueda').value.trim();
+
+        // Verifica que no esté vacío
+        if (query) {
+            // Envía el valor al backend como JSON
+            fetch('/user/search', {
+                method: 'POST', // Cambia a POST para enviar datos en el cuerpo de la solicitud
+                headers: {
+                    'Content-Type': 'application/json' // Indica que el cuerpo es JSON
+                },
+                body: JSON.stringify({ query }) // Envía el JSON con el término de búsqueda
+            })
+            
+        } else {
+            alert('Por favor, ingresa un término de búsqueda.');
+        }
+    });
+	
+	async function verpreview(button) {
+	    // Obtener el ID del video del atributo data-id del botón
+	    const id = button.getAttribute("data-id");
+
+	    // Construir la URL con el parámetro ID
+	    const url = `/video/preview?id=${encodeURIComponent(id)}`;
+
+	    // Redirigir directamente
+	    window.location.href = url;
+	}
+  </script>
+
+</body>
+</html>

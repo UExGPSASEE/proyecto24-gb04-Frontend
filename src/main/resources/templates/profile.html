@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de Usuario</title>
+    <link rel="stylesheet" href="/styles/style_Profile.css">
+</head>
+<body>
+	<h1 class="titulo-principal"><img src="/images/logo.png" alt="Logo de la aplicacion" class="thumbnail" th:onclick="window.location.href='/home'"></h1>
+	
+    <!-- Contenedor principal -->
+    <div class="profile-container">
+        <!-- Cabecera del perfil -->
+        <div class="profile-header">
+            <!-- El botón redirige a la página de edición del perfil -->
+			<button class="history-button" th:if="${propio}" onclick="window.location.href='/user/history'">Historial</button>
+            <button class="edit-button" th:if="${propio}" onclick="window.location.href='/user/editProfile'">Editar Perfil</button>
+			<button class="logout-button" th:if="${propio}" onclick="window.location.href='/user/logout'">Cerrar sesión</button>
+
+			<button class="delete-button" th:if="${propio}" onclick="borrarCuenta()">Borrar cuenta</button>
+			<button class="delete-button" 
+			        th:if="${admin}" 
+			        th:data-username="${user.username}" 
+			        onclick="borrarUsuario(this)">Eliminar Usuario
+					</button>
+            
+            <div class="profile-info">
+                <img src="/images/profile.png" alt="Foto de perfil" class="profile-pic">
+                <h2 class="username" id="username" th:text="${user.username}">Nombre_Usuario</h2> <!-- Agrega un ID aquí -->
+                <p class="description" th:text="${user.bio}">Descripción del usuario.</p>
+
+                <!-- Botón "Seguir Perfil" o "Dejar de Seguir Perfil" según el estado -->
+                <button th:if="${!propio && !siguiendo}" class="follow-button" onclick="seguirUsuario()">Seguir Perfil</button>
+                <button th:if="${!propio && siguiendo}" class="unfollow-button" onclick="dejarSeguirUsuario()">Dejar de Seguir Perfil</button>
+				<button th:if="${propio}" class="video-button" onclick="window.location.href='/user/formVideo'">Nuevo Video</button>
+            </div>
+        </div>
+
+
+        <!-- Contenedor de tarjetas de videos -->
+		<div class="video-container">
+		    <div class="container">
+				<div class="card" th:each="video : ${videos}">
+				    <img src="/images/play.png" alt="Miniatura del video" class="thumbnail">
+				    <div class="card-content">
+				        <h2 class="title" th:text="${video.title}">Título del Video</h2>
+				        <p class="description" th:text="${video.description}">Descripción del video.</p>
+				        <p class="date" th:text="${video.uploadDate}">Fecha de subida.</p>
+				        
+						<!-- Botón Editar Video, visible solo si propio es true -->
+						<button class="edit-video-button" 
+							onclick="verpreview(this)" 
+							th:data-id="${video.id}">
+							Ver Video
+						</button>
+
+				        <!-- Botón Editar Video, visible solo si propio es true -->
+				        <button th:if="${propio}" class="edit-video-button" 
+				                onclick="editarVideo(this)" 
+				                th:data-title="${video.title}"
+								th:data-videoId="${video.id}">
+				            Editar Video
+				        </button>
+						
+						<!-- Botón Editar restricciones del Video, visible solo si admin es true -->
+						<button th:if="${admin}" class="edit-video-button"
+						        onclick="redirigirRestricciones(this)"
+						        th:data-video="${video.id}"
+						        th:data-username="${user.username}">
+						    Restricciones
+						</button>
+				        
+				        <!-- Ícono de papelera para eliminar el video, visible solo si propio es true -->
+				        <button th:if="${propio}" class="delete-video-button" 
+				                onclick="eliminarVideo(this)" 
+				                th:data-title="${video.title}"
+								th:data-videoId="${video.id}">
+				            🗑️
+				        </button>
+						
+						<!-- Ícono de papelera para eliminar el video, visible solo si admin es true -->
+				        <button th:if="${admin}" class="delete-video-button" 
+				                onclick="eliminarVideoAdmin(this)" 
+				                th:data-title="${video.title}"
+								th:data-videoId="${video.id}"
+								th:data-username="${user.username}">
+				            🗑️
+				        </button>
+				    </div>
+				</div>
+		        <!-- Si no hay videos, muestra un mensaje -->
+		        <p th:if="${videos.empty}" class="no-videos">Este usuario aún no tiene videos subidos.</p>
+		    </div>
+		</div>
+    </div>
+
+    <script>
+		function seguirUsuario() {
+		    const username = document.getElementById('username').innerText;
+
+		    fetch(`/user/follow`, {
+		        method: 'POST',
+		        headers: { 'Content-Type': 'application/json' },
+		        body: JSON.stringify(username) // Enviamos directamente el username como JSON
+		    })
+		    .then(response => {
+		        if (response.ok) {
+		            window.location.href = `/user/${username}`;
+		        }
+		    })
+		    .catch(error => console.error('Error al seguir usuario:', error));
+		}
+
+		function dejarSeguirUsuario() {
+		    const username = document.getElementById('username').innerText;
+
+		    fetch(`/user/unfollow`, {
+		        method: 'POST',
+		        headers: { 'Content-Type': 'application/json' },
+		        body: JSON.stringify(username) // Enviamos directamente el username como JSON
+		    })
+		    .then(response => {
+		        if (response.ok) {
+		            window.location.href = `/user/${username}`;
+		        }
+		    })
+		    .catch(error => console.error('Error al dejar de seguir usuario:', error));
+		}
+		function borrarCuenta() {
+		    const username = document.getElementById('username').innerText;
+
+		    fetch(`/user/delete`, {
+		        method: 'POST'
+		    })
+		    .then(response => {
+		        if (response.ok) {
+		            // Redirigir después de borrar
+		            window.location.href = '/register';
+		        } else {
+		            console.error('Error al borrar la cuenta:', response.statusText);
+		        }
+		    })
+		    .catch(error => console.error('Error al borrar la cuenta:', error));
+		}
+		function editarVideo(button) {
+		    // Obtener el ID del video del atributo data-videoId del botón
+		    const videoId = button.getAttribute("data-videoId");
+
+		    // Verificar que el ID no esté vacío
+		    if (!videoId) {
+		        alert("No se encontró el ID del video.");
+		        console.error("El ID del video no se encuentra en los atributos data.");
+		        return;
+		    }
+
+		    // Redirigir al formulario de edición usando el ID
+		    window.location.href = `/user/formEditVideo?id=${encodeURIComponent(videoId)}`;
+		}
+		
+		function redirigirRestricciones(button) {
+		    const videoId = button.getAttribute("data-video");
+		    const username = button.getAttribute("data-username");
+
+		    // Verificar que los datos existen
+		    if (!videoId || !username) {
+		        alert("Error: faltan datos para redirigir.");
+		        console.error("Faltan datos: videoId o username no encontrados.");
+		        return;
+		    }
+
+		    // Construir la URL con parámetros de consulta
+		    const url = `/video/restrictions?videoId=${encodeURIComponent(videoId)}&username=${encodeURIComponent(username)}`;
+
+		    // Redirigir a la URL
+		    window.location.href = url;
+		}
+
+
+
+		async function eliminarVideo(button) {
+		    const videoTitle = button.getAttribute("data-title");
+			const videoId = button.getAttribute("data-videoId");
+
+		    // Confirmación antes de eliminar
+		    if (!confirm(`¿Estás seguro de que quieres eliminar el video "${videoTitle}"?`)) {
+		        return;
+		    }
+
+		    try {
+		        // Llama al endpoint para eliminar el video
+		        const response = await fetch(`/user/deleteVideo`, {
+		            method: 'POST',
+		            headers: { 'Content-Type': 'application/json' },
+		            body: JSON.stringify(videoId) // Enviamos directamente el título como JSON
+		        });
+
+		        if (response.ok) {
+		            alert(`El video "${videoTitle}" ha sido eliminado.`);
+		            // Redirige al perfil del usuario
+		            window.location.href = "/user/profile";
+		        } else {
+		            console.error(`Error al eliminar el video: ${response.status}`);
+		            alert("Hubo un problema al eliminar el video. Inténtalo nuevamente.");
+		        }
+		    } catch (error) {
+		        console.error("Error al intentar eliminar el video:", error);
+		        alert("Error en la conexión. Por favor, inténtalo más tarde.");
+		    }
+		}
+		
+		
+		async function eliminarVideoAdmin(button) {
+		    const videoTitle = button.getAttribute("data-title");
+		    const videoId = button.getAttribute("data-videoId");
+
+		    // Confirmación antes de eliminar
+		    if (!confirm(`¿Estás seguro de que quieres eliminar el video "${videoTitle}"?`)) {
+		        return;
+		    }
+
+		    try {
+		        // Llama al endpoint para eliminar el video
+		        const response = await fetch(`/user/deleteVideo`, {
+		            method: 'POST',
+		            headers: { 'Content-Type': 'application/json' },
+		            body: JSON.stringify(videoId) // Enviamos directamente el título como JSON
+		        });
+
+		        if (response.ok) {
+		            alert(`El video "${videoTitle}" ha sido eliminado.`);
+		            // Recargar la misma vista (actualizar contenido)
+		            window.location.reload();
+		        } else {
+		            console.error(`Error al eliminar el video: ${response.status}`);
+		            alert("Hubo un problema al eliminar el video. Inténtalo nuevamente.");
+		        }
+		    } catch (error) {
+		        console.error("Error al intentar eliminar el video:", error);
+		        alert("Error en la conexión. Por favor, inténtalo más tarde.");
+		    }
+		}
+
+		
+		async function verpreview(button) {
+		    // Obtener el ID del video del atributo data-id del botón
+		    const id = button.getAttribute("data-id");
+
+		    // Construir la URL con el parámetro ID
+		    const url = `/video/preview?id=${encodeURIComponent(id)}`;
+
+		    // Redirigir directamente
+		    window.location.href = url;
+		}
+		
+		function borrarUsuario(button) {
+		    // Obtén el username desde el atributo data-username
+		    const username = button.getAttribute("data-username");
+
+		    // Confirmación antes de eliminar
+		    if (!confirm(`¿Estás seguro de que quieres eliminar al usuario "${username}"?`)) {
+		        return;
+		    }
+
+		    // Enviar solicitud al endpoint de eliminación
+		    fetch(`/user/adminDelete`, {
+		        method: 'POST',
+		        headers: { 'Content-Type': 'application/json' },
+		        body: JSON.stringify({ username }) // Enviar como objeto JSON
+		    })
+		    .then(response => {
+		        if (response.ok) {
+		            alert(`El usuario "${username}" ha sido eliminado.`);
+		            // Redirigir al home o actualizar página
+		            window.location.href = '/home';
+		        } else {
+		            console.error('Error al eliminar el usuario:', response.statusText);
+		            alert('No se pudo eliminar el usuario. Por favor, inténtalo de nuevo.');
+		        }
+		    })
+		    .catch(error => {
+		        console.error('Error en la solicitud de eliminación:', error);
+		        alert('Hubo un problema al conectar con el servidor. Inténtalo más tarde.');
+		    });
+		}
+
+
+    </script>
+</body>
+</html>

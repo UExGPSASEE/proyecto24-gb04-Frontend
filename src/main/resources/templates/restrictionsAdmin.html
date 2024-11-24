@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restricciones</title>
+    <link rel="stylesheet" href="/styles/style_Formvideo.css">
+</head>
+<body>
+    <div class="upload-container">
+        <h2>Configuración de Restricciones</h2>
+        
+        <form id="videoUploadForm" class="upload-form" th:object="${video}">
+            <!-- Campo oculto para el ID del video -->
+            <input type="hidden" name="id" th:value="${video.id}" id="videoId">
+			<input type="hidden" name="username" th:value="${username}" id="username">
+
+            <!-- Restricción de Países -->
+            <label for="restriccionPaises">Restricción de Países:</label>
+            <div id="restriccionPaises">
+                <label>
+                    <input type="checkbox" name="countries" value="ES" 
+                           th:checked="${video.countryRestricted != null and video.countryRestricted.contains('ES')}">
+                    España (ES)
+                </label>
+                <label>
+                    <input type="checkbox" name="countries" value="USA" 
+                           th:checked="${video.countryRestricted != null and video.countryRestricted.contains('USA')}">
+                    Estados Unidos (USA)
+                </label>
+                <label>
+                    <input type="checkbox" name="countries" value="CA" 
+                           th:checked="${video.countryRestricted != null and video.countryRestricted.contains('CA')}">
+                    Canadá (CA)
+                </label>
+                <label>
+                    <input type="checkbox" name="countries" value="JP" 
+                           th:checked="${video.countryRestricted != null and video.countryRestricted.contains('JP')}">
+                    Japón (JP)
+                </label>
+                <label>
+                    <input type="checkbox" name="countries" value="FR" 
+                           th:checked="${video.countryRestricted != null and video.countryRestricted.contains('FR')}">
+                    Francia (FR)
+                </label>
+                <label>
+                    <input type="checkbox" name="countries" value="DE" 
+                           th:checked="${video.countryRestricted != null and video.countryRestricted.contains('DE')}">
+                    Alemania (DE)
+                </label>
+            </div>
+
+            <!-- Restricción de Edad -->
+            <label for="restriccionEdad">Restricción de Edad:</label>
+            <div id="restriccionEdad">
+                <label>
+                    <input type="radio" name="ageRestricted" value="true" 
+                           th:checked="${video.ageRestricted}">
+                    Sí
+                </label>
+                <label>
+                    <input type="radio" name="ageRestricted" value="false" 
+                           th:checked="${video.ageRestricted == false}">
+                    No
+                </label>
+            </div>
+
+            <!-- Botón de envío -->
+            <button type="submit">Guardar Restricciones</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("videoUploadForm").addEventListener("submit", async function(event) {
+            event.preventDefault(); // Evita el envío estándar del formulario
+
+            // Obtener el ID del video
+            const videoId = document.getElementById("videoId").value;
+			const username = document.getElementById("username").value;
+
+            // Obtener valores seleccionados
+            const paises = Array.from(document.querySelectorAll('input[name="countries"]:checked'))
+                                .map(checkbox => checkbox.value);
+            const restriccionEdad = document.querySelector('input[name="ageRestricted"]:checked').value === "true";
+
+            // Crear el objeto JSON con los datos
+            const restricciones = {
+                id: videoId, // Incluye el ID del video
+				username: username,
+                countries: paises,
+                ageRestricted: restriccionEdad
+            };
+
+            try {
+                // Realiza la solicitud POST con el objeto JSON
+                const response = await fetch("/user/saveRestrictions", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(restricciones)
+                });
+
+                if (response.ok) {
+                    alert("Restricciones guardadas con éxito.");
+                    // Recarga la página para reflejar los cambios
+                    window.location.href="/home";
+                } else {
+                    console.error("Error al guardar las restricciones:", response.status);
+                    alert("Hubo un error al guardar las restricciones.");
+                }
+            } catch (error) {
+                console.error("Error en la petición:", error.message);
+                alert("Error en la petición: " + error.message);
+            }
+        });
+    </script>
+</body>
+</html>
